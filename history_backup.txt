@@ -1,0 +1,110 @@
+    1  git config --global user.name "CALIJA"
+    2  git config --global user.email "CALIJA@gmail.com"
+    3  mkdir hello
+    4  cd hello
+    5  touch hello.html
+    6  Hello? World
+    7  Hello, World
+    8  cd hello.html
+    9  Add Hello, World
+   10  echo "Hello, World" > hello.html
+   11  git init
+   12  git add hello.html
+   13  git commit -m "First Commit"
+   14  git status
+   15  <h1>Hello, World!</h1>
+   16  echo "<h1>Hello, World!</h1> > hello.html
+
+   17  echo "<h1>Hello, World!</h1> > hello.html
+
+
+
+
+
+
+
+   
+
+
+   18  echo "<h1>Hello, World!</h1> > hello.html
+
+cat hello.html
+   19  echo "<h1>Hello, World!</h1>" > hello.html
+   20  cat hello.html
+   21  git status
+   22  git add hello.html
+   23  git status
+   24  git commit
+   25   echo "<html> > hello.html
+
+<body>
+<h1>Hello, World!</h1>
+</body>
+</html>
+"
+   26  cat hello.html
+   27  cat > hello.html <<EOF
+<[200~<h1>...</h1>h1>...</h1>
+<p>...</p>
+<h2>...</h2>
+<head>...</head>
+EOF
+
+   28  <p>...</p>
+   29  <h2>...</h2>
+   30  <head>...</head>
+   31  echo "<html>" > hello.html
+   32  echo "<body>" >> hello.html
+   33  cat hello.html
+   34  echo "<html>" > hello.html
+   35  echo " <body>" > hello.html
+   36  echo "<html>" > hello.html
+   37  echo " <body>" >> hello.html
+   38  echo "  <h1>Hello, World!</h1>" >> hello.html
+   39  echo " </body>" >> hello.html
+   40  echo " </html>" >> hello.html
+   41  cat hello.html
+   42  git add hello.html
+   43  nano hello.html
+   44  git status
+   45  git commit -m "Added standard HTML page tags"
+   46  git status
+   47  git add .
+   48  git status
+   49  git commit -m "Added HTML header"
+   50  git log
+   51  git log --pretty=oneline
+   52  git log --pretty=oneline --max-count=2
+   53  git log --pretty=oneline --since='5 minutes ago'
+   54  git log --pretty=oneline --until='5 minutes ago'
+   55  git log --pretty=oneline --author=<your name>
+   56  git log --pretty=oneline --author=<CALIJA>
+   57  git log --pretty=oneline --all
+   58  git checkout <hash>
+   59  git log --oneline
+   60  git checkout 3969fa7 
+   61  git checkout 106479d
+   62  cat hello.html
+   63  git checkout master
+   64  cat hello.html
+   65  nano hello.html
+   66  git status
+   67  git checkout hello.html
+   68  git status
+   69  cat hello.html
+   70  nano hello.html
+   71  git add hello.html
+   72  git status
+   73  git reset HEAD hello.html
+   74  git checkout hello.html
+   75  git status
+   76  nano hello.html
+   77  git add hello.html
+   78  git commit -m "Oops, we gignt want this commit"
+   79  git rebert HEAD
+   80  git revert HEAD
+   81  git revert HEAD
+   82   git commit -m "Oops, we gignt want this commit"
+   83  git revert HEAD
+   84  git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short
+   85  history > history_backup.txt
