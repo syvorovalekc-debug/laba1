@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Лабораторная: HTML + JS</title>
+        <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+      background: #1e2128;
+      color: #dfe3e8;
+      line-height: 1.5;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #f0f3f6;
+      text-align: center;
+      margin: 0 0 24px;
+    }
+
+    h2 {
+      font-size: 18px;
+      color: #f0f3f6;
+      margin: 0 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #353a44;
+    }
+
+    h3 {
+      font-size: 15px;
+      color: #9aa3b0;
+      margin: 18px 0 10px;
+      font-weight: 600;
+    }
+
+    .task {
+      max-width: 920px;
+      margin: 0 auto 20px;
+      padding: 20px;
+      background: #262a33;
+      border: 1px solid #353a44;
+      border-radius: 10px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    input, button {
+      padding: 8px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      border-radius: 6px;
+      border: 1px solid #3f4550;
+      background: #1e2128;
+      color: #dfe3e8;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    input {
+      min-width: 240px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #5b9bd5;
+      box-shadow: 0 0 0 2px rgba(91, 155, 213, 0.18);
+    }
+
+    button {
+      cursor: pointer;
+      background: #5b9bd5;
+      color: #fff;
+      border-color: #5b9bd5;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background: #4a86bd;
+      border-color: #4a86bd;
+    }
+
+    button:active {
+      background: #3d73a5;
+    }
+
+    .shape {
+      width: 64px;
+      height: 64px;
+      margin: 8px;
+      display: inline-block;
+      background: #e63946;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.15s ease, border-radius 0.15s ease;
+    }
+
+    .shape.green { background: #2a9d8f; }
+    .shape.circle { border-radius: 50%; }
+
+    #suggestions {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0;
+      max-width: 320px;
+    }
+
+    #suggestions li {
+      padding: 8px 12px;
+      background: #1e2128;
+      border: 1px solid #3f4550;
+      border-bottom: 0;
+      cursor: pointer;
+      font-size: 14px;
+      color: #dfe3e8;
+      transition: background 0.15s ease;
+    }
+
+    #suggestions li:last-child { border-bottom: 1px solid #3f4550; }
+    #suggestions li:first-child { border-radius: 6px 6px 0 0; }
+    #suggestions li:last-child { border-radius: 0 0 6px 6px; }
+    #suggestions li:hover { background: #2f3540; }
+
+    #trailCanvas {
+      width: 100%;
+      max-width: 800px;
+      height: 200px;
+      background: #1a1d24;
+      border: 1px solid #3f4550;
+      border-radius: 6px;
+      display: block;
+      cursor: crosshair;
+    }
+
+    #dragWorkspace {
+      position: relative;
+      height: 240px;
+      background: #1a1d24;
+      border: 1px dashed #3f4550;
+      border-radius: 6px;
+    }
+
+    #dragBlock {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      width: 130px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #3d6e87;
+      border: 1px solid #5b9bd5;
+      color: #e8f1ff;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: grab;
+      user-select: none;
+      z-index: 2;
+      transition: border-radius 0.2s ease, background 0.2s ease;
+    }
+
+    #dragBlock:active { cursor: grabbing; }
+
+    #dragBlock.in-zone {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: #b3893a;
+      border-color: #d9a94c;
+      color: #fff3d6;
+    }
+
+    #dropZone {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      width: 170px;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+      border: 1px dashed #3f4550;
+      border-radius: 6px;
+      color: #8c95a3;
+      font-size: 13px;
+      z-index: 1;
+    }
+
+    .game-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    #gameHud {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      background: #1a1d24;
+      border: 1px solid #353a44;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    #gameHud b { color: #5b9bd5; }
+
+    .canvas-box {
+      position: relative;
+      border: 1px solid #353a44;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    #gameCanvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #0a0f1e;
+    }
+
+    #gameOverlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      padding: 24px;
+      text-align: center;
+      background: rgba(10, 15, 30, 0.85);
+      color: #e8f1ff;
+    }
+
+    #gameOverlay.hidden {
+      display: none;
+    }
+
+    #gameOverlay h3 {
+      margin: 0;
+      font-size: 26px;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    #gameOverlay p {
+      margin: 0;
+      max-width: 500px;
+      line-height: 1.5;
+      color: #b8c5d9;
+    }
+
+    #gameStartBtn {
+      padding: 10px 24px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Лабораторная работа: HTML + JavaScript</h1>
+
+<!-- Задания 1–5 -->
+<section class="task">
+  <h2>Задания 1–5. Текстовое поле и кнопки</h2>
+
+  <div class="row">
+    <input id="mainInput" type="text" placeholder="Введите текст...">
+  </div>
+
+  <div class="row">
+    <button id="fillBtn">Заполнить текст</button>
+    <button id="alertBtn">Проверить</button>
+    <button id="lockBtn">Разблокировано</button>
+    <button id="maskBtn">Доступно</button>
+    <button id="hideFieldBtn">Скрыть поле</button>
+  </div>
+</section>
+
+<!-- Задание 6 -->
+<section class="task">
+  <h2>Задание 6. Фигура: красный → зелёный при наведении</h2>
+  <div id="hoverShape" class="shape circle"></div>
+</section>
+
+<!-- Задание 7 -->
+<section class="task">
+  <h2>Задание 7. Несколько фигур, активна только одна зелёная</h2>
+  <div class="row">
+    <input id="shapeCount" type="number" min="1" max="50" value="5">
+    <button id="createShapesBtn">Создать фигуры</button>
+  </div>
+  <div id="shapesBox"></div>
+</section>
+
+<!-- Задание 8 -->
+<section class="task">
+  <h2>Задание 8. Автодополнение текста</h2>
+  <input id="autocompleteInput" type="text" placeholder="Начните вводить...">
+  <ul id="suggestions"></ul>
+</section>
+
+<!-- Задание 9 -->
+<section class="task">
+  <h2>Задание 9. След мыши, скорость курсора и Drag &amp; Drop</h2>
+
+  <h3>9.1. След движения мыши и скорость курсора</h3>
+  <canvas id="trailCanvas" width="800" height="200"></canvas>
+  <p>Скорость за последние 2 секунды: <b id="speedInfo">0 px/s</b></p>
+
+  <h3>9.2. Перетаскивание блока «Подвинь меня»</h3>
+  <div id="dragWorkspace">
+    <div id="dragBlock">Подвинь меня</div>
+    <div id="dropZone">Зона: если отпустить здесь — блок изменит размер и форму</div>
+  </div>
+</section>
+
+<!-- Задание 10 -->
+<section class="task">
+  <h2>Задание 10. Космический шутер (вариант 4)</h2>
+
+  <div class="game-wrap">
+    <div id="gameHud">
+      <span>Уровень: <b id="gameLevel">1</b></span>
+      <span>Медали: <b id="gameMedals">0</b></span>
+      <span>Скорость: <b id="gameSpeed">1.00x</b></span>
+    </div>
+
+    <div class="canvas-box">
+      <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+      <div id="gameOverlay">
+        <h3 id="gameOverlayTitle">Космический шутер</h3>
+        <p id="gameOverlayText">
+          Собирайте медали и уклоняйтесь от противников.<br>
+          Управление: <b>стрелки</b> или <b>мышь</b>.
+        </p>
+        <button id="gameStartBtn">Начать игру</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
